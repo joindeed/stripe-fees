@@ -1,0 +1,2 @@
+- name: Action For Semantic Release
+  uses: cycjimmy/semantic-release-action@v2.4.1

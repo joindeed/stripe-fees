@@ -1,6 +1,6 @@
 {
   "name": "stripe-fees",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Calculate Stripe fees for international and domestic transactions",
   "keywords": [
     "stripe"
@@ -9,7 +9,8 @@
   "module": "dist/stripe-fees.es5.js",
   "typings": "dist/types/stripe-fees.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "author": "Dmitri Pisarev <dimaip@gmail.com>",
   "repository": {

@@ -1,6 +1,6 @@
 {
   "name": "stripe-fees",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Calculate Stripe fees for international and domestic transactions",
   "keywords": [
     "stripe"

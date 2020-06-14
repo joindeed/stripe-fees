@@ -16,17 +16,19 @@ yarn add stripe-fees
 
 ## Usage
 
+**Heads up!** All currency amounts are in cents (1/100)!
+
 ```js
 calculateStripeFee(
-  // Transaction amount
+  // Transaction amount in cents
   amount: number,
   // Alpha-2 country code of the target account
   accountCountryCode: string,
   // Bank card Alpha-2 country code
   cardCountryCode: string,
-  // Your applicationFee, default to 0
+  // Your applicationFee in percents, default to 0
   applicationFee: number = 0
-): number
+): number // Returns resulting fee amount in cents
 ```
 
 E.g. transaction from UK card to US account:

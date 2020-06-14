@@ -66,37 +66,37 @@ interface FeesByCountry {
 // https://stripe.com/{countryCode}/pricing#pricing-details
 const stripeFeesByCountry: FeesByCountry = {
   US: {
-    fixedFeeDomestic: 0.3,
+    fixedFeeDomestic: 30,
     percentFeeDomestic: 2.9,
-    fixedFeeInternational: 0.3,
+    fixedFeeInternational: 30,
     percentFeeInternational: 2.9,
     currencyConversionPercentFee: 1
   },
   GB: {
-    fixedFeeDomestic: 0.3,
+    fixedFeeDomestic: 30,
     percentFeeDomestic: 1.4,
-    fixedFeeInternational: 0.3,
+    fixedFeeInternational: 30,
     percentFeeInternational: 2.9,
     currencyConversionPercentFee: 2
   },
   DK: {
-    fixedFeeDomestic: 1.8,
+    fixedFeeDomestic: 180,
     percentFeeDomestic: 1.4,
-    fixedFeeInternational: 1.8,
+    fixedFeeInternational: 180,
     percentFeeInternational: 2.9,
     currencyConversionPercentFee: 2
   },
   IE: {
-    fixedFeeDomestic: 0.25,
+    fixedFeeDomestic: 25,
     percentFeeDomestic: 1.4,
-    fixedFeeInternational: 0.25,
+    fixedFeeInternational: 25,
     percentFeeInternational: 2.9,
     currencyConversionPercentFee: 2
   },
   LU: {
-    fixedFeeDomestic: 0.25,
+    fixedFeeDomestic: 25,
     percentFeeDomestic: 1.4,
-    fixedFeeInternational: 0.25,
+    fixedFeeInternational: 25,
     percentFeeInternational: 2.9,
     currencyConversionPercentFee: 2
   },
@@ -116,9 +116,9 @@ const stripeFeesByCountry: FeesByCountry = {
     currencyConversionPercentFee: 2
   },
   SG: {
-    fixedFeeDomestic: 0.5,
+    fixedFeeDomestic: 50,
     percentFeeDomestic: 3.4,
-    fixedFeeInternational: 0.5,
+    fixedFeeInternational: 50,
     percentFeeInternational: 3.4,
     currencyConversionPercentFee: 2
   }
@@ -164,7 +164,9 @@ const calculateStripeFee = (
     return 0
   }
   const result = _calculateFees(accountCountryCode, cardCountryCode)
-  return (amount + result.fixedFee) / (1 - result.percentFee / 100 - applicationFee / 100) - amount
+  return Math.round(
+    (amount + result.fixedFee) / (1 - result.percentFee / 100 - applicationFee / 100) - amount
+  )
 }
 
 export default calculateStripeFee

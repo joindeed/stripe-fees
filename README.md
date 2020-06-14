@@ -35,7 +35,7 @@ E.g. transaction from UK card to US account:
 
 ```js
 import calculateStripeFee from 'stripe-fees'
-const stripeFee = calculateStripeFee(100, 'US', 'UK')
+const stripeFee = calculateStripeFee(10000, 'US', 'UK')
 ```
 
 But now you are left wondering, how to get the card country code from the Strip card input element before making the transaction (since it's protected from direct access)? Simple!

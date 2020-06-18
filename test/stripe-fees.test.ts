@@ -1,15 +1,47 @@
 import calculateStripeFee, { _calculateFees } from '../src/stripe-fees'
 
+test('Throws on bad country code', () => {
+  expect(() => calculateStripeFee(10, 'ZZ', 'ZZ')).toThrow(
+    'Given country code "ZZ" is not supported by Stripe'
+  )
+})
+
 test('0 amount yields 0 fee', () => {
-  expect(calculateStripeFee(0, 'GB', 'GB', 0)).toBe(0)
+  expect(calculateStripeFee(0, 'GB', 'GB', 0)).toEqual({
+    totalFeeAmount: 0,
+    applicationFeeAmount: 0,
+    providerFeeAmount: 0
+  })
 })
 
 test('Integrational GB => US', () => {
-  expect(calculateStripeFee(10000, 'US', 'GB', 0)).toBe(437)
+  expect(calculateStripeFee(10000, 'US', 'GB', 0)).toEqual({
+    applicationFeeAmount: 0,
+    providerFeeAmount: 437,
+    totalFeeAmount: 437
+  })
+})
+test('Integrational GB => US, don\t cover fees', () => {
+  expect(calculateStripeFee(10000, 'US', 'GB', 0, false)).toEqual({
+    applicationFeeAmount: 0,
+    providerFeeAmount: 420,
+    totalFeeAmount: 420
+  })
 })
 
 test('Integrational US => GB', () => {
-  expect(calculateStripeFee(10000, 'GB', 'US', 0)).toBe(547)
+  expect(calculateStripeFee(10000, 'GB', 'US', 0)).toEqual({
+    applicationFeeAmount: 0,
+    providerFeeAmount: 547,
+    totalFeeAmount: 547
+  })
+})
+test('Integrational US => GB, don\t cover fees', () => {
+  expect(calculateStripeFee(10000, 'GB', 'US', 0, false)).toEqual({
+    applicationFeeAmount: 0,
+    providerFeeAmount: 520,
+    totalFeeAmount: 520
+  })
 })
 
 test('US => US', () => {

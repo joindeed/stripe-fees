@@ -27,8 +27,13 @@ calculateStripeFee(
   // Bank card Alpha-2 country code
   cardCountryCode: string,
   // Your applicationFee in percents, default to 0
-  applicationFee: number = 0
-): number // Returns resulting fee amount in cents
+  applicationFee: number = 0,
+  coverFees: boolean = true,
+): {
+  totalFeeAmount: number,
+  applicationFeeAmount: number,
+  providerFeeAmount: number
+} // Returns resulting fee amounts in cents: total, provider and application
 ```
 
 E.g. transaction from UK card to US account:

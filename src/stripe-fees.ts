@@ -158,15 +158,39 @@ const calculateStripeFee = (
   amount: number,
   accountCountryCode: string,
   cardCountryCode: string,
-  applicationFee: number = 0
+  applicationFee: number = 0,
+  coverFees: boolean = true
 ) => {
   if (!amount) {
-    return 0
+    return {
+      totalFeeAmount: 0,
+      applicationFeeAmount: 0,
+      providerFeeAmount: 0
+    }
   }
   const result = _calculateFees(accountCountryCode, cardCountryCode)
-  return Math.round(
-    (amount + result.fixedFee) / (1 - result.percentFee / 100 - applicationFee / 100) - amount
-  )
+  if (coverFees) {
+    // Final donation amount that is needed to cover the fees
+    // @see https://support.stripe.com/questions/passing-the-stripe-fee-on-to-customers
+    const grossAmount =
+      (amount + result.fixedFee) / (1 - (result.percentFee + applicationFee) / 100)
+    const totalFeeAmount = grossAmount - amount
+    const applicationFeeAmount = grossAmount * (applicationFee / 100)
+    const providerFeeAmount = totalFeeAmount - applicationFeeAmount
+    return {
+      totalFeeAmount: Math.round(totalFeeAmount),
+      applicationFeeAmount: Math.round(applicationFeeAmount),
+      providerFeeAmount: Math.round(providerFeeAmount)
+    }
+  }
+  const totalFeeAmount = amount * ((result.percentFee + applicationFee) / 100) + result.fixedFee
+  const applicationFeeAmount = amount * (applicationFee / 100)
+  const providerFeeAmount = totalFeeAmount - applicationFeeAmount
+  return {
+    totalFeeAmount: Math.round(totalFeeAmount),
+    applicationFeeAmount: Math.round(applicationFeeAmount),
+    providerFeeAmount: Math.round(providerFeeAmount)
+  }
 }
 
 export default calculateStripeFee
